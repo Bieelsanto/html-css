@@ -1,0 +1,41 @@
+@charset "UTF-8";
+
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    /* Família da fonte */
+    font-size: 20px; 
+    /* Tamanho da fonte */
+    background-image: linear-gradient(0deg, rgb(248, 100, 100), rgb(253, 122, 34));
+    /* Cria um background degradê. 
+        background-image linear-gradient(ângulo, cor1, cor2)
+        0deg = cor1 sul - cor2 norte
+        90deg = cor1 oeste - cor2 leste
+        180deg = cor1 norte - cor2 sul
+        270deg = cor1 leste - cor2 oeste
+        360deg = cor1 sul - cor 2 norte
+    */
+    background-image: radial-gradient(red 10%, blue 15%, yellow 30%, green 50%);
+    /* Cria um círculo de background com degradê
+        background-image: radial-gradient(cor1 x%[...]);
+        x% = porcentagem de ocupação da tela no centro
+    */
+}
+h1{
+    color:maroon;
+    /* Cor da fonte */
+    background-color: darkgoldenrod;
+    /* Cor do fundo da fonte */
+}
+h2{
+    color:darkred;
+    /* Cor da fonte */
+}
+p{
+    text-align: justify;
+    /* Alinhamento do conteúdo
+        justify = espaçamento entre as letras variável
+        center = conteúdo centralizado
+        right/left = conteúdo na direita/esquerda
+
+    */
+}
