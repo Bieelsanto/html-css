@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flexbox</title>
+    <style>
+        body{
+            font-family: Arial, Helvetica, sans-serif;
+            text-align: center;
+        }
+        /* Se uma configuração do container sobrepor a configuração de um container-item, a configuração do container prevalece. 
+        
+        Exemplo(container): flex-flow:column wrap;
+        Exemplo(item):flex 1 1 1px */
+        .container{
+            display: flex;
+            background-color: lightgray;
+            border: 3px solid black;
+            flex-flow: column wrap;
+            height: 350px;
+        }
+        .container-item{
+            padding: 20px;
+            flex: 1 1 1px;
+        }
+        #caixa1{
+            background-color: red;
+        }
+        #caixa2{
+            background-color: blue;
+        }
+        #caixa3{
+            background-color: yellow;
+        }
+    </style>
+</head>
+<body>
+    <h1>Testando flexbox</h1>
+    <div class="container">
+        <div class="container-item" id="caixa1">
+            <h1>Caixa 1</h1>
+        </div>
+        <div class="container-item" id="caixa2">
+            <h1>Caixa 2</h1>
+        </div>
+        <div class="container-item" id="caixa3">
+            <h1>Caixa 3</h1>
+        </div>
+    </div>
+</body>
+</html>
