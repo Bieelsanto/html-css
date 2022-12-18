@@ -1,10 +1,18 @@
+function expoente(array){
+    return array == "^"
+}
+
+function spliter(text){
+    for (let i = 0; i < text.length; i++){
+        array.push(text[i])
+    }
+}
+
 function calculo(){
     var text = window.document.getElementById("texto").value
-    text.split("")
-    console.log(text)
-    var exp = text.findIndex(expoente)
-    function expoente(text){
-        return text == "^"
-    }
+    array = []
+    array.spliter(text)
+    var exp = array.findIndex(expoente)
+    console.log(array)
     console.log(exp)
 }
