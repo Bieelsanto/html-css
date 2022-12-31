@@ -54,8 +54,8 @@ function validarEquacao(text){
           if((
           text[i-1] != 'x' && 
           text[i-1] != 'y') || 
-          isNaN(text[i+1]
-          )){
+          isNaN(text[i+1])
+          ){
           console.log(i)
           console.log('Verifique o termo de segundo grau!')
           valido = false
@@ -68,13 +68,18 @@ function validarEquacao(text){
           text[i] == '-'
         ){
           quantidadeOperadores++
-          console.log(quantidadeOperadores)
+        }
+      },
+      posicaoDasVariaveis(i){
+        if((text[i] == 'x' || text[i] == 'y') && !isNaN(text[i+1])){
+          valido = false
+          console.log('Digite a sua variável da mesma maneira do exemplo.')
         }
       },
       verificadorDeSomatorios(){
         if (quantidadeOperadores != 2){
           valido = false
-          console.log('Trinômios possuem dois operadores matemáticos!')
+          console.log('Trinômios possuem apenas três termos!')
         }
       }
     }
@@ -83,50 +88,51 @@ function validarEquacao(text){
       passosDeVerificacao.caracteresInvalidos(i)
       passosDeVerificacao.termoDeSegundoGrauIncorreto(i)
       passosDeVerificacao.operadoresInsuficientes(i)
+      passosDeVerificacao.posicaoDasVariaveis(i)
     }
     passosDeVerificacao.verificadorDeSomatorios()
     return valido
   }
 
 function posicaoSoma(){
-    let array = []
-    for (let i = 0; i < text.length; i++){
-        if (text[i] == '+'){
-            array.push(i)
-        }
-        console.log(text[i])
-    }
-    return array 
+  let array = []
+  for (let i = 0; i < text.length; i++){
+      if (text[i] == '+'){
+          array.push(i)
+      }
+      console.log(text[i])
+  }
+  return array 
 }
 
 function posicaoSub(){
-    let array = []
-    for (let i = 0; i < text.length; i++){
-        if (text[i] == '-'){
-            array.push(i)
-        }
-    }
-    return array
+  let array = []
+  for (let i = 0; i < text.length; i++){
+      if (text[i] == '-'){
+          array.push(i)
+      }
+  }
+  return array
 }
 
 function posicaoExp(){
-    let array = []
-    for (let i = 0; i < text.length; i++){
-        if (text[i] == '^'){
-            array.push(i)
-        }
-    }
-    return array
+  let array = []
+  for (let i = 0; i < text.length; i++){
+      if (text[i] == '^'){
+          array.push(i)
+      }
+  }
+  return array
 }
 
 function posicaoX(){
-    let array = []
-    for (let i = 0; i < text.length; i++){
-        if (text[i] == 'x'){
-            array.push(i)
-        }
-    }
-    return array
+  let array = []
+  for (let i = 0; i < text.length; i++){
+      if (text[i] == 'x'){
+          array.push(i)
+      }
+  }
+  return array
 }
 
 function posicaoY(){
