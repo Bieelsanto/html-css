@@ -1,6 +1,6 @@
 function calculo(){
     /* Tratamento preliminar da input (minúscula, sem espaço) */
-    const text = window.document.getElementById("equacao").value.trim().replace(/ /g, '').toLowerCase()
+    const text = window.document.getElementById("equacao").value.replace(/ /g, '').toLowerCase()
 
     /* Função que valida se a string está correta*/
     console.log('Código rodado')
@@ -10,10 +10,11 @@ function calculo(){
     valido = validarEquacao(text)
     if(valido){
       /* Funções de indexação da posição de itens chaves da string */
-      som = posicaoSoma(text)
-      sub = posicaoSub(text)
-      exp = posicaoExp(text)
-      xis = posicaoXis(text)
+      som = posicaoSoma()
+      sub = posicaoSub()
+      exp = posicaoExp()
+      xis = posicaoX()
+      ypslon = posicaoY()
 
       /* Print do resultado das funções */
       console.log(som)
@@ -26,6 +27,7 @@ function calculo(){
 
 function validarEquacao(text){
   valido = true
+  quantidadeOperadores = 0
     const passosDeVerificacao = {
       estaVazio(){
         if(text == ''){
@@ -38,36 +40,55 @@ function validarEquacao(text){
           isNaN(text[i]) &&
           text[i] != '^' &&
           text[i] != 'x' &&
+          text[i] != 'y' &&
           text[i] != '+' &&
           text[i] != '-'
         ){
           console.log(i)
           console.log('Verifique os caracteres usados. Só são aceitos [^ + - x] e números!')
           valido = false
-        }
+        } 
       },
       termoDeSegundoGrauIncorreto(i){
-        if(
-          text[i] == '^' &&(
-          text[i-1] !='x'||
-          isNaN(text[i+1])
-        )){
+        if(text[i] == '^'){
+          if((
+          text[i-1] != 'x' && 
+          text[i-1] != 'y') || 
+          isNaN(text[i+1]
+          )){
           console.log(i)
           console.log('Verifique o termo de segundo grau!')
           valido = false
+          }
         }
       },
-
+      operadoresInsuficientes(i){
+        if(
+          text[i] == '+' ||
+          text[i] == '-'
+        ){
+          quantidadeOperadores++
+          console.log(quantidadeOperadores)
+        }
+      },
+      verificadorDeSomatorios(){
+        if (quantidadeOperadores != 2){
+          valido = false
+          console.log('Trinômios possuem dois operadores matemáticos!')
+        }
+      }
     }
     passosDeVerificacao.estaVazio()
     for (let i = 0; i < text.length; i++){
       passosDeVerificacao.caracteresInvalidos(i)
       passosDeVerificacao.termoDeSegundoGrauIncorreto(i)
+      passosDeVerificacao.operadoresInsuficientes(i)
     }
+    passosDeVerificacao.verificadorDeSomatorios()
     return valido
   }
 
-function posicaoSoma(text){
+function posicaoSoma(){
     let array = []
     for (let i = 0; i < text.length; i++){
         if (text[i] == '+'){
@@ -78,7 +99,7 @@ function posicaoSoma(text){
     return array 
 }
 
-function posicaoSub(text){
+function posicaoSub(){
     let array = []
     for (let i = 0; i < text.length; i++){
         if (text[i] == '-'){
@@ -88,7 +109,7 @@ function posicaoSub(text){
     return array
 }
 
-function posicaoExp(text){
+function posicaoExp(){
     let array = []
     for (let i = 0; i < text.length; i++){
         if (text[i] == '^'){
@@ -98,7 +119,7 @@ function posicaoExp(text){
     return array
 }
 
-function posicaoXis(text){
+function posicaoX(){
     let array = []
     for (let i = 0; i < text.length; i++){
         if (text[i] == 'x'){
@@ -106,4 +127,14 @@ function posicaoXis(text){
         }
     }
     return array
+}
+
+function posicaoY(){
+  let array = []
+  for (let i = 0; i < text.length; i++){
+      if (text[i] == 'y'){
+          array.push(i)
+      }
+  }
+  return array
 }
