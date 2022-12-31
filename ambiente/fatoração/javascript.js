@@ -1,8 +1,12 @@
 function calculo(){
     /* Tratamento preliminar da input (minúscula, sem espaço) */
-    var text = window.document.getElementById("texto").value.trim().replace(/ /g, '').toLowerCase()
+    const text = window.document.getElementById("equacao").value.trim().replace(/ /g, '').toLowerCase()
 
-    /* Função que valida se  a string está correta*/
+    /* Função que valida se a string está correta*/
+    console.log('Código rodado')
+    console.log('---------')
+    console.log(text)
+    console.log('---------')
     valido = validarEquacao(text)
     if(valido){
       /* Funções de indexação da posição de itens chaves da string */
@@ -20,66 +24,47 @@ function calculo(){
     }
 }
 
-function validarEquacao(text) {
-    let valido = true
-    let temExp = false
-    let doisXis = 0
+function validarEquacao(text){
+  valido = true
     const passosDeVerificacao = {
-      caracteresValidos(i) {
-        if (
+      estaVazio(){
+        if(text == ''){
+          valido = false
+          console.log('A caixa de texto está vazia!')
+        }
+      },
+      caracteresInvalidos(i){
+        if(
           isNaN(text[i]) &&
-          text[i] != "x" &&
-          text[i] != "^" &&
-          text[i] != "+" &&
-          text[i] != "-"
-        ) {
+          text[i] != '^' &&
+          text[i] != 'x' &&
+          text[i] != '+' &&
+          text[i] != '-'
+        ){
+          console.log(i)
+          console.log('Verifique os caracteres usados. Só são aceitos [^ + - x] e números!')
           valido = false
-          console.log("Utilize apenas números e os seguintes sinais: (+ - ^ x)")
-          return
         }
       },
-      segundoGrauValido(i) {
-        if (
-          (text[i] == "^") &&
-          isNaN(text[i + 1]) ||
-          text[i - 1] != "x"
-        ) {
+      termoDeSegundoGrauIncorreto(i){
+        if(
+          text[i] == '^' &&(
+          text[i-1] !='x'||
+          isNaN(text[i+1])
+        )){
+          console.log(i)
+          console.log('Verifique o termo de segundo grau!')
           valido = false
-          console.log("Verifique o termo de segundo grau")
-          return
         }
       },
-      temExpoente(i) {
-        if (text[i] == "^") {
-          temExp = true
-          return
-        }
-      },
-      temDoisXis(i) {
-        if (text[i] == "x") {
-            doisXis = doisXis + 1
-            console.log(doisXis)
-            return 
-        }
-      }
-    };
-    for (let i = 0; i < text.length; i++) {
-      passosDeVerificacao.caracteresValidos(i);
-      passosDeVerificacao.segundoGrauValido(i);
-      passosDeVerificacao.temExpoente(i);
-      passosDeVerificacao.temDoisXis(i);
-      console.log(doisXis);
+
     }
-    if (!temExp) {
-      valido = false;
-      console.log("A equação não tem expoente! (Utilize ^ para designar um expoente.");
+    passosDeVerificacao.estaVazio()
+    for (let i = 0; i < text.length; i++){
+      passosDeVerificacao.caracteresInvalidos(i)
+      passosDeVerificacao.termoDeSegundoGrauIncorreto(i)
     }
-    if (doisXis != 2) {
-      valido = false;
-      console.log("Um trinômio quadrado perfeito precisa ter dois x!");
-    }
-    console.log(doisXis);
-    return valido;
+    return valido
   }
 
 function posicaoSoma(text){
@@ -90,7 +75,7 @@ function posicaoSoma(text){
         }
         console.log(text[i])
     }
-    return array
+    return array 
 }
 
 function posicaoSub(text){
