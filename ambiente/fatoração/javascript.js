@@ -8,25 +8,17 @@ function calculo(){
     console.log(text)
     console.log('---------')
     valido = validarEquacao(text)
-    if(valido){
-      /* Funções de indexação da posição de itens chaves da string */
-      som = posicaoSoma()
-      sub = posicaoSub()
-      exp = posicaoExp()
-      xis = posicaoX()
-      ypslon = posicaoY()
 
-      /* Print do resultado das funções */
-      console.log(som)
-      console.log(sub)
-      console.log(exp)
-      console.log(xis)
-      console.log(valido)
+    /* Função de indexação da posição de itens chaves da string */
+    if(valido){
+      console.log('Processando indexações')
+      indexarElementos(text)
+      separarOsTermos(text)
     }
 }
 
 function validarEquacao(text){
-  valido = true
+  let valido = true
   quantidadeOperadores = 0
     const passosDeVerificacao = {
       estaVazio(){
@@ -62,85 +54,110 @@ function validarEquacao(text){
           }
         }
       },
-      operadoresInsuficientes(i){
+      posicaoDosOperadoresErrada(){
         if(
-          text[i] == '+' ||
-          text[i] == '-'
-        ){
-          quantidadeOperadores++
-        }
+        text[text.length-1] == '+'||
+        text[text.length-1] == '-' ){
+          valido = false
+          console.log('Operadores matemáticos não podem estar no final de equações!')
+      }
       },
       posicaoDasVariaveis(i){
         if((text[i] == 'x' || text[i] == 'y') && !isNaN(text[i+1])){
           valido = false
-          console.log('Digite a sua variável da mesma maneira do exemplo.')
-        }
-      },
-      verificadorDeSomatorios(){
-        if (quantidadeOperadores != 2){
-          valido = false
-          console.log('Trinômios possuem apenas três termos!')
+          console.log('Equação inválida.')
         }
       }
     }
     passosDeVerificacao.estaVazio()
+    passosDeVerificacao.posicaoDosOperadoresErrada()
     for (let i = 0; i < text.length; i++){
       passosDeVerificacao.caracteresInvalidos(i)
       passosDeVerificacao.termoDeSegundoGrauIncorreto(i)
-      passosDeVerificacao.operadoresInsuficientes(i)
       passosDeVerificacao.posicaoDasVariaveis(i)
     }
-    passosDeVerificacao.verificadorDeSomatorios()
     return valido
   }
 
-function posicaoSoma(){
-  let array = []
-  for (let i = 0; i < text.length; i++){
-      if (text[i] == '+'){
-          array.push(i)
+function indexarElementos(text){
+Mais = []
+Menos = []
+let Expoente = []
+let X = []
+let Y = []
+OrdemSinais = []
+PosicaoSinais = [0]
+
+const passosDeIndexacao = {
+  posicaoMais(i){
+    if (text[i] == '+'){
+      Mais.push(i)
+    }
+  },
+  posicaoOperadores(i){
+    if (text[i] == '+'){
+      OrdemSinais.push('+')
+      PosicaoSinais.push (i)
+    }else{
+      if(text[i] == '-'){
+        OrdemSinais.push('-')
+        PosicaoSinais.push (i)
       }
-      console.log(text[i])
+    }
+  },
+  posicaoMenos(i){
+    if (text[i] == '-'){
+        Menos.push(i)
+    }
+  },
+  posicaoExp(i){
+    if (text[i] == '^'){
+        Expoente.push(i)
+    }
+  },
+  posicaoX(i){
+    if (text[i] == 'x'){
+        X.push(i)
+    }
+  },
+  posicaoY(i){
+    if (text[i] == 'y'){
+        Y.push(i)
+    }
   }
-  return array 
+}
+  for (let i = 0; i < text.length; i++){
+    passosDeIndexacao.posicaoMais(i)
+    passosDeIndexacao.posicaoMenos(i)
+    passosDeIndexacao.posicaoExp(i)
+    passosDeIndexacao.posicaoX(i)
+    passosDeIndexacao.posicaoY(i)
+    passosDeIndexacao.posicaoOperadores(i)
+  }
+  PosicaoSinais.push(text.length)
+  if(text[0] != '-' && text[0] != '+'){
+    OrdemSinais.unshift('+')
+  }
+  OrdemSinais.push('+')
+  console.log('Mais: ' + Mais)
+  console.log('Menos: ' + Menos)
+  console.log('Expoentes: ' + Expoente)
+  console.log('X: ' + X)
+  console.log('Y: ' + Y)
+  console.log(OrdemSinais)
+  console.log(PosicaoSinais)
 }
 
-function posicaoSub(){
-  let array = []
-  for (let i = 0; i < text.length; i++){
-      if (text[i] == '-'){
-          array.push(i)
+function separarOsTermos(text){
+  separacao = []
+  for (let i = 0; i < OrdemSinais.length-1; i++){
+    if (OrdemSinais[i] == '+'){
+      if(i == 0){
+        separacao.push(text.slice(PosicaoSinais[i], PosicaoSinais[i+1]))
+      }else{
+        separacao.push(text.slice(PosicaoSinais[i]+1, PosicaoSinais[i+1]))
       }
+    }
   }
-  return array
-}
-
-function posicaoExp(){
-  let array = []
-  for (let i = 0; i < text.length; i++){
-      if (text[i] == '^'){
-          array.push(i)
-      }
-  }
-  return array
-}
-
-function posicaoX(){
-  let array = []
-  for (let i = 0; i < text.length; i++){
-      if (text[i] == 'x'){
-          array.push(i)
-      }
-  }
-  return array
-}
-
-function posicaoY(){
-  let array = []
-  for (let i = 0; i < text.length; i++){
-      if (text[i] == 'y'){
-          array.push(i)
-      }
-  }
-  return array
+  console.log(separacao)
 }
