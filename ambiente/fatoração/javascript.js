@@ -1,20 +1,20 @@
 function calculo(){
-    /* Tratamento preliminar da input (minúscula, sem espaço) */
-    const text = window.document.getElementById("equacao").value.replace(/ /g, '').toLowerCase()
+  /* Tratamento preliminar da input (minúscula, sem espaço) */
+  const text = window.document.getElementById("equacao").value.replace(/ /g, '').toLowerCase()
 
-    /* Função que valida se a string está correta*/
-    console.log('Código rodado')
-    console.log('---------')
-    console.log(text)
-    console.log('---------')
-    valido = validarEquacao(text)
+  /* Função que valida se a string está correta*/
+  console.log('Código rodado')
+  console.log('---------')
+  console.log(text)
+  console.log('---------')
+  valido = validarEquacao(text)
 
-    /* Função de indexação da posição de itens chaves da string */
-    if(valido){
-      console.log('Processando indexações')
-      indexarElementos(text)
-      separarOsTermos(text)
-    }
+  /* Função de indexação da posição de itens chaves da string */
+  if(valido){
+    console.log('Processando indexações')
+    indexarElementos(text)
+    separarOsTermos(text)
+  }
 }
 
 function validarEquacao(text){
@@ -138,26 +138,46 @@ const passosDeIndexacao = {
   if(text[0] != '-' && text[0] != '+'){
     OrdemSinais.unshift('+')
   }
-  OrdemSinais.push('+')
   console.log('Mais: ' + Mais)
   console.log('Menos: ' + Menos)
   console.log('Expoentes: ' + Expoente)
   console.log('X: ' + X)
   console.log('Y: ' + Y)
-  console.log(OrdemSinais)
   console.log(PosicaoSinais)
+  console.log(OrdemSinais)
 }
 
 function separarOsTermos(text){
   separacao = []
-  for (let i = 0; i < OrdemSinais.length-1; i++){
-    if (OrdemSinais[i] == '+'){
-      if(i == 0){
-        separacao.push(text.slice(PosicaoSinais[i], PosicaoSinais[i+1]))
+  for (let i = 0; i < OrdemSinais.length; i++){
+    if(i == 0){
+      separacao.push(text.slice(PosicaoSinais[i], PosicaoSinais[i+1]))
+    }else{
+      separacao.push(text.slice(PosicaoSinais[i]+1, PosicaoSinais[i+1]))
+    }
+  }
+  stringTemporaria = ''
+  bruto = []
+  for (let i = 0; i < separacao.length; i++){
+    for(let j = 0; j < (separacao[i]).length; j++){
+      if(isNaN(separacao[i][j]) || (separacao[i][j-1] == '^')){
+        stringTemporaria = stringTemporaria + separacao[i][j]
+      }
+    }
+    bruto.push(stringTemporaria)
+    stringTemporaria = ''
+  }
+  console.log(bruto)
+
+  /* for (let i = 0; i < separacao.length; i++){
+    for(let j = 0; j < (separacao[i]).length; j++){
+      if(separacao[i][j] == 'x'){
+        console.log('x')
       }else{
-        separacao.push(text.slice(PosicaoSinais[i]+1, PosicaoSinais[i+1]))
+        console.log('n')
       }
     }
   }
+ */
   console.log(separacao)
 }
