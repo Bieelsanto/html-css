@@ -65,8 +65,11 @@ main{
     background-color: white;
     margin: auto;
     margin-top: 10px;
-    padding: 10px;
     border-radius: 8px;
+}
+
+article{
+    padding: 10px;
 }
 
 article > h1{
